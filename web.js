@@ -91,7 +91,15 @@ app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   destroy_resource(request.params.id)
   response.send("ok")
 })
-
+//SSO LANDING PAGE
+app.get('/', function(request, response) {
+  if(request.session.resource){
+    response.render('index.jade', {layout: false, 
+      resource: request.session.resource, email: request.session.email })
+  }else{
+    response.send("Not found", 404);
+  }
+});
 var port = process.env.PORT || 4567;
 app.listen(port, function() {
   console.log("Listening on " + port);
