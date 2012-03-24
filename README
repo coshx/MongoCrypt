@@ -1,0 +1,9 @@
+---Setup---
+install Heroku toolbelt: https://toolbelt.herokuapp.com/
+http://nodejs.org/#download
+install Node:
+rvm use 1.9.3
+rvm gemset create kwyjibo
+gem install foreman
+npm install
+run with: foreman start
