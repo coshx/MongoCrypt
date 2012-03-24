@@ -64,11 +64,6 @@ function basic_auth (req, res, next) {
   res.send('Authentication required', 401);
 }
 
-var port = process.env.PORT || 3000;
-app.listen(port, function() {
-  console.log("Listening on " + port);
-});
-
 // Routes
 
 app.get('/', routes.index);
@@ -81,18 +76,6 @@ app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request
   response.send(resource)
 });
 
-//Plan Change
-app.put('/heroku/resources/:id', express.bodyParser(), basic_auth, function(request, response) {
-  console.log(request.body)
-  console.log(request.params) 
-  var resource =  get_resource(request.params.id)
-  if(!resource){
-    response.send("Not found", 404);
-    return;
-  }
-  resource.plan = request.body.plan
-  response.send("ok")
-})
 //Deprovision
 app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   console.log(request.params)
@@ -103,16 +86,8 @@ app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   destroy_resource(request.params.id)
   response.send("ok")
 })
-//SSO LANDING PAGE
-app.get('/', function(request, response) {
-  if(request.session.resource){
-    response.render('index.jade', {layout: false, 
-      resource: request.session.resource, email: request.session.email })
-  }else{
-    response.send("Not found", 404);
-  }
-});
-var port = process.env.PORT || 4567;
+
+var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
-})
+});
