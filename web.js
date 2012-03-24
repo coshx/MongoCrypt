@@ -81,6 +81,18 @@ app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request
   response.send(resource)
 });
 
+//Plan Change
+app.put('/heroku/resources/:id', express.bodyParser(), basic_auth, function(request, response) {
+  console.log(request.body)
+  console.log(request.params) 
+  var resource =  get_resource(request.params.id)
+  if(!resource){
+    response.send("Not found", 404);
+    return;
+  }
+  resource.plan = request.body.plan
+  response.send("ok")
+})
 //Deprovision
 app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   console.log(request.params)
