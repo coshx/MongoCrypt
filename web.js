@@ -1,6 +1,24 @@
 var express = require('express');
 var resources = [];
 
+function get_resource(id) {
+ id = parseInt(id)
+ for (i in resources) {
+   if(resources[i].id == id){
+     return resources[i] 
+   }
+ }
+}
+
+function destroy_resource(id) {
+ id = parseInt(id)
+ for (i in resources) {
+   if(resources[i].id == id){
+     delete resources[i] 
+   }
+ }
+}
+
 /**
  * Module dependencies.
  */
@@ -49,6 +67,7 @@ function basic_auth (req, res, next) {
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
+});
 
 // Routes
 
@@ -61,6 +80,17 @@ app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request
   resources.push(resource)
   response.send(resource)
 });
+
+//Deprovision
+app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
+  console.log(request.params)
+  if(!get_resource(request.params.id)){
+    response.send("Not found", 404);
+    return;
+  }
+  destroy_resource(request.params.id)
+  response.send("ok")
+})
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
