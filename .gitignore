@@ -2,3 +2,4 @@ node_modules
 .nide/
 .npmignore
 Icon?
+*.sw?

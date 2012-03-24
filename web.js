@@ -1,3 +1,5 @@
+var express = require('express');
+var resources = [];
 
 /**
  * Module dependencies.
@@ -29,9 +31,36 @@ app.configure('production', function(){
   app.use(express.errorHandler());
 });
 
+function basic_auth (req, res, next) {
+  if (req.headers.authorization && req.headers.authorization.search('Basic ') === 0) {
+    // fetch login and password
+    if (new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString() == 
+        process.env.HEROKU_USERNAME + ':' + process.env.HEROKU_PASSWORD) {
+      next();
+      return;
+    }
+  }
+  console.log('Unable to authenticate user');
+  console.log(req.headers.authorization);
+  res.header('WWW-Authenticate', 'Basic realm="Admin Area"');
+  res.send('Authentication required', 401);
+}
+
+var port = process.env.PORT || 3000;
+app.listen(port, function() {
+  console.log("Listening on " + port);
+
 // Routes
 
 app.get('/', routes.index);
+
+app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request, response) {
+  // TODO actually spin up db node
+  console.log(request.body)
+  var resource =  {id : resources.length + 1, plan : request.body.plan }
+  resources.push(resource)
+  response.send(resource)
+});
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
