@@ -10,21 +10,19 @@ include bootstrap_navbar
     h1 Your Data. Secured.
     p
       | MongoCrypt is a hosted encrypted database solution for running your application backend in a simple and secure fashion.
-    p
-      a.btn.btn-primary.btn-large Learn more » 
   .row
-    .span6
-      h2 Top Security
+    .span4
+      h2 Safe At Rest
       p
-        | Most databases are not secure; Compliance with industry standards for securing data is difficult (but extremely necessary, especially for healthcare, payment systems, etc,); We offer highly secure hosted MongoDB
+        | Your data is encrypted with a unique key assigned to your app before it even gets to MongoCrypt through an open source extension to the MongoDB client driver, keeping it a secret from all parties but you.
+    .span4
+      h2 Secure In Transit
       p
-        a.btn(href='#') View details »
-    .span6
-     h2 Ease of use
-     p
-       | Deploy your application, spin up a MongoCrypt db and configure your application. Its as easy as that.
-     p
-       a.btn(href='#') Heroku Add-on »
+        | Traffic between your app and MongoCrypt is encrypted with an SSL session key, providing perfect forward secrecy even in the event that your app's key is ever compromised.
+    .span4
+      h2 As A Service
+      p
+        | With our free starter plan, you can get up and running in minutes and go back to focusing on developing your application.  When you need more space, upgrade to a plan the fits your needs.
   hr
   footer
     p © MongoCrypt 2012
