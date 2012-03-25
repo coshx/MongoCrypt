@@ -120,10 +120,13 @@ app.get('/help', function(request, response) {
 //SSO LANDING PAGE
 app.get('/', function(request, response) {
   if(request.session.resource){
-    response.render('index.ejs', {layout: false, 
+    response.render('index.jade', {layout: false, 
       resource: request.session.resource, email: request.session.email })
   }else{
-	response.redirect("/home")
+	console.log("---Error loading sso landing page---")
+	console.log(request.session)
+	console.log(request.session.resource)
+	response.redirect("/landing")
     //response.send("Not found", 404);
   }
 });
