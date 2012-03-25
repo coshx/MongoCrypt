@@ -107,6 +107,10 @@ function sso_auth (req, res, next) {
 app.get('/home', function(request, response) {
   	response.render('home.jade', {  title: 'MongoCrypt' })
 });
+//PRICING
+app.get('/pricing', function(request, response){
+	response.render('pricing.jade', { title: 'MongoCrypt'})
+});
 
 //DEMO LANDING PAGE
 app.get('/landing', function(request, response) {
