@@ -25,6 +25,7 @@ function destroy_resource(id) {
 
 var express = require('express')
   , routes = require('./routes');
+var crypto  = require('crypto');
 
 var app = module.exports = express.createServer();
 
@@ -64,6 +65,37 @@ function basic_auth (req, res, next) {
   res.send('Authentication required', 401);
 }
 
+function sso_auth (req, res, next) {
+  if(req.params.length == 0){
+    var id = req.param('id');
+  }else{
+    var id = req.params.id;
+  }
+  console.log("id for sso auth is ")
+  console.log(id)
+  console.log(req.params)
+  var pre_token = id + ':' + process.env.SSO_SALT + ':' + req.param('timestamp')
+  var shasum = crypto.createHash('sha1')
+  shasum.update(pre_token)
+  var token = shasum.digest('hex')
+  if( req.param('token') != token){
+	console.log(req.param('token'))
+	console.log(token)
+	console.log(pre_token)
+    res.send("Token Mismatch.", 403);
+    return;
+  }
+  var time = (new Date().getTime() / 1000) - (2 * 60);
+  if( parseInt(req.param('timestamp')) < time ){
+    res.send("Timestamp Expired", 403);
+    return;
+  }
+  res.cookie('heroku-nav-data', req.param('nav-data'))
+  req.session.resource = get_resource(id)
+  req.session.email = req.param('email')
+  next();
+}
+
 // Routes
 
 app.get('/', routes.index);
@@ -85,6 +117,16 @@ app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   }
   destroy_resource(request.params.id)
   response.send("ok")
+})
+
+//GET SSO
+app.get('/heroku/resources/:id', sso_auth, function(request, response) {
+  response.redirect("/")
+})
+
+//POST SSO
+app.post('/sso/login', express.bodyParser(), sso_auth, function(request, response){
+  response.redirect("/")
 })
 
 var port = process.env.PORT || 3000;

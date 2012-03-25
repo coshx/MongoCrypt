@@ -5,8 +5,8 @@
     "password": "xrTpvtHD0fbdfHsb",
     "sso_salt": "e6t6vHOweLqDvvuM",
     "production": {
-      "base_url": "http://kwyjibo.herokuapp.com/heroku/resources",
-      "sso_url": "http://kwyjibo.herokuapp.com/sso/login"
+      "base_url": "https://kwyjibo.herokuapp.com/heroku/resources",
+      "sso_url": "https://kwyjibo.herokuapp.com/sso/login"
     },
     "test": {
       "base_url": "http://localhost:5000/heroku/resources",

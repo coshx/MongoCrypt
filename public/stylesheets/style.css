@@ -1,10 +1,28 @@
-<!--
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-}
-
-a {
-  color: #00B7FF;
-}
--->
+#heroku-header { overflow: hidden; display: inline-block; margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: arial, helvetica, sans-serif; vertical-align: baseline; min-width: 1044px; background-color: #29264d; border-bottom-style: solid; border-bottom-width: 3px; border-bottom-color: #494573; height: 91px; }
+#heroku-header { display: block; }
+#heroku-header div, #heroku-header span, #heroku-header object, #heroku-header iframe, #heroku-header h1, #heroku-header h2, #heroku-header h3, #heroku-header h4, #heroku-header h5, #heroku-header h6, #heroku-header p, #heroku-header pre, #heroku-header a, #heroku-header abbr, #heroku-header acronym, #heroku-header address, #heroku-header code, #heroku-header del, #heroku-header dfn, #heroku-header em, #heroku-header img, #heroku-header dl, #heroku-header dt, #heroku-header dd, #heroku-header ol, #heroku-header ul, #heroku-header li, #heroku-header fieldset, #heroku-header form, #heroku-header input, #heroku-header label, #heroku-header legend, #heroku-header caption, #heroku-header tbody, #heroku-header tfoot, #heroku-header thead, #heroku-header tr { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: arial, helvetica, sans-serif; vertical-align: baseline; }
+#heroku-header blockquote, #heroku-header q { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: arial, helvetica, sans-serif; vertical-align: baseline; quotes: "" ""; }
+#heroku-header blockquote:before, #heroku-header blockquote:after, #heroku-header q:before, #heroku-header q:after { content: ""; }
+#heroku-header th, #heroku-header td, #heroku-header caption { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: arial, helvetica, sans-serif; vertical-align: baseline; text-align: left; font-weight: normal; vertical-align: middle; }
+#heroku-header table { margin: 0; padding: 0; border: 0; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: arial, helvetica, sans-serif; vertical-align: baseline; border-collapse: separate; border-spacing: 0; vertical-align: middle; }
+#heroku-header a img { border: none; }
+#heroku-header li { list-style-type: none; }
+#heroku-header *:focus { outline: 0; }
+#heroku-header #heroku-logo { margin: 20px 0 15px 25px; float: left; }
+#heroku-header #heroku-logo a { display: block; text-indent: -9999px; width: 177px; height: 56px; overflow: hidden; background-image: url(https://nav.heroku.com/images/logos/logo.png); background-repeat: no-repeat; }
+#heroku-header ul#heroku-account-nav, #heroku-header ul#heroku-section-nav { list-style-type: none; overflow: hidden; display: inline-block; float: right; margin-top: 30px; padding: 10px; }
+#heroku-header ul#heroku-account-nav, #heroku-header ul#heroku-section-nav { display: block; }
+#heroku-header ul#heroku-account-nav li, #heroku-header ul#heroku-section-nav li { float: left; margin-left: 10px; }
+#heroku-header ul#heroku-account-nav li:first-child, #heroku-header ul#heroku-section-nav li:first-child { margin-left: 0; }
+#heroku-header ul#heroku-account-nav li, #heroku-header ul#heroku-section-nav li { border-left-style: solid; border-left-width: 2px; border-left-color: #494573; padding-left: 10px; font-size: 16px; }
+#heroku-header ul#heroku-account-nav li:first-child, #heroku-header ul#heroku-section-nav li:first-child { border-left: none; padding-left: 0; }
+#heroku-header ul#heroku-account-nav li#heroku-header-link-login, #heroku-header ul#heroku-section-nav li#heroku-header-link-login { border: none; margin-left: 0; padding-left: 0; }
+#heroku-header ul#heroku-account-nav li a, #heroku-header ul#heroku-section-nav li a { color: #c9c3e6; text-decoration: none; font-weight: normal; }
+#heroku-header ul#heroku-account-nav li a:hover, #heroku-header ul#heroku-section-nav li a:hover { color: white; }
+#heroku-header ul#heroku-account-nav li a.active, #heroku-header ul#heroku-section-nav li a.active { color: #bff740; }
+#heroku-header ul#heroku-account-nav li a.active:hover, #heroku-header ul#heroku-section-nav li a.active:hover { color: #bff740; }
+#heroku-header ul#heroku-account-nav { background-color: #231d40; padding-left: 15px; padding-right: 15px; margin-right: 25px; margin-left: 10px; -moz-border-radius: 7px; -webkit-border-radius: 7px; }
+#heroku-header ul#heroku-account-nav li a { color: #45a4ff; }
+#heroku-header ul#heroku-account-nav li a:hover { color: #74d0f4; }
+#heroku-header ul#heroku-account-nav li a.active { color: #bff740; }
+#heroku-header ul#heroku-account-nav li a.active:hover { color: #bff740; }
