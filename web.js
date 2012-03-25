@@ -2,7 +2,7 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express')
   //, routes = require('./routes');
 var crypto  = require('crypto');
 var http    = require('http');
@@ -100,6 +100,11 @@ function sso_auth (req, res, next) {
 // Routes
 
 //app.get('/', routes.index);
+
+//DEMO LANDING PAGE
+app.get('/landing', function(request, response) {
+  	response.render('landing.jade', {  title: 'MongoCrypt' })
+});
 
 //SSO LANDING PAGE
 app.get('/', function(request, response) {

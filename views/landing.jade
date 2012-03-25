@@ -1,0 +1,102 @@
+.navbar.navbar-fixed-top
+    //include bootstrap_navbar
+    include heroku_navbar
+br
+br
+br
+br
+br
+br
+img(alt='Mongo Database Security through encryption', src='/img/mongocrypt.png')    
+.page-header
+    h1 Database Stats
+    table.table.table-bordered.table-striped
+        thead
+            tr
+                th 
+                    | db
+                    i.icon-lock
+                th collections
+                th objects
+                th avgObjSize
+                th dataSize
+                th storageSize
+                th numExtents
+                th indexes
+                th indexSize
+                th indexSize
+                th nsSizeMB
+        tbody
+            tr
+                td app3424871
+                td 3
+                td 5
+                td 59.2
+                td 296
+                td 20480
+                td 3
+                td 1
+                td 8176
+                td 50331648
+                td 16
+
+.page-header
+    h1
+        | Collections
+        small (connection strings)
+    a.btn.btn-large(href='#')
+        i.icon-plus
+        | Add Collection
+
+.well
+    h3 Mongo Console
+    | mongo staff.mongocrypt.com:10098/app3424871 -u <user> -p<password>
+    p
+    h3 Mongo URI
+    | mongodb://<user>:<password>@staff.mongocrypt.com:10098/app3424871
+    
+.page-header
+    h1
+        | Database Users
+    a.btn.btn-large(href='#')
+        i.icon-plus
+        | Add User
+
+form.well.form-inline
+    input.input-small(type='text', value='JohnDoe')
+    |   
+    input.input-small(type='password', placeholder='Password')
+    |  
+    label.checkbox
+        input(type='checkbox')
+        | Read Only
+    |  
+    a.btn.btn-primary(href='#') 
+        i.icon-refresh.icon-white
+        | Update
+    |  
+    a.btn.btn-danger(href='#')
+        i.icon-trash.icon-white
+        | Delete
+
+
+
+form.well.form-inline
+    input.input-small(type='text', value='OtherGuy')
+    |  
+    input.input-small(type='password', placeholder='Password')
+    |  
+    label.checkbox
+        input(type='checkbox')
+        | Read Only
+    |  
+    a.btn.btn-primary(href='#')
+        i.icon-refresh.icon-white
+        | Update
+    |  
+    a.btn.btn-danger(href='#')
+        i.icon-trash.icon-white
+        | Delete
+hr
+footer
+    p © MongoCrypt 2012
