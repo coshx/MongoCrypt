@@ -14,11 +14,11 @@ include bootstrap_navbar
     .span4
       h2 Safe At Rest
       p
-        | Your data is encrypted with a unique key assigned to your app before it even gets to MongoCrypt through an open source extension to the MongoDB client driver, keeping it a secret from all parties but you.
+        | Your data is encrypted before it even gets to MongoCrypt with a key known only to your app, keeping it a secret from all parties but you.
     .span4
       h2 Secure In Transit
       p
-        | Traffic between your app and MongoCrypt is encrypted with an SSL session key, providing perfect forward secrecy even in the event that your app's key is ever compromised.
+        | Traffic between your app and MongoCrypt is encrypted with session keys, so it can't be deciphered even if your app's key is ever compromised.
     .span4
       h2 As A Service
       p
