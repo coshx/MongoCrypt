@@ -1,31 +1,14 @@
-var express = require('express');
-var resources = [];
-
-function get_resource(id) {
- id = parseInt(id)
- for (i in resources) {
-   if(resources[i].id == id){
-     return resources[i] 
-   }
- }
-}
-
-function destroy_resource(id) {
- id = parseInt(id)
- for (i in resources) {
-   if(resources[i].id == id){
-     delete resources[i] 
-   }
- }
-}
-
 /**
  * Module dependencies.
  */
 
-var express = require('express')
-  , routes = require('./routes');
+var express = require('express');
+  //, routes = require('./routes');
 var crypto  = require('crypto');
+var http    = require('http');
+var fs      = require('fs');
+var resources = [];
+
 
 var app = module.exports = express.createServer();
 
@@ -49,6 +32,24 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
+
+function get_resource(id) {
+ id = parseInt(id)
+ for (i in resources) {
+   if(resources[i].id == id){
+     return resources[i] 
+   }
+ }
+}
+
+function destroy_resource(id) {
+ id = parseInt(id)
+ for (i in resources) {
+   if(resources[i].id == id){
+     delete resources[i] 
+   }
+ }
+}
 
 function basic_auth (req, res, next) {
   if (req.headers.authorization && req.headers.authorization.search('Basic ') === 0) {
@@ -98,7 +99,17 @@ function sso_auth (req, res, next) {
 
 // Routes
 
-app.get('/', routes.index);
+//app.get('/', routes.index);
+
+//SSO LANDING PAGE
+app.get('/', function(request, response) {
+  if(request.session.resource){
+    response.render('index.ejs', {layout: false, 
+      resource: request.session.resource, email: request.session.email })
+  }else{
+    response.send("Not found", 404);
+  }
+});
 
 app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request, response) {
   // TODO actually spin up db node
