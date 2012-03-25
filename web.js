@@ -52,6 +52,9 @@ function destroy_resource(id) {
 }
 
 function basic_auth (req, res, next) {
+  console.log("---Basic auth---")
+  console.log(req.headers.authorization)
+  console.log(req.headers.authorization.search('Basic '))
   if (req.headers.authorization && req.headers.authorization.search('Basic ') === 0) {
     // fetch login and password
     if (new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString() == 
@@ -100,6 +103,10 @@ function sso_auth (req, res, next) {
 // Routes
 
 //app.get('/', routes.index);
+//HOME PAGE
+app.get('/home', function(request, response) {
+  	response.render('home.jade', {  title: 'MongoCrypt' })
+});
 
 //DEMO LANDING PAGE
 app.get('/landing', function(request, response) {
@@ -116,7 +123,8 @@ app.get('/', function(request, response) {
     response.render('index.ejs', {layout: false, 
       resource: request.session.resource, email: request.session.email })
   }else{
-    response.send("Not found", 404);
+	response.redirect("/home")
+    //response.send("Not found", 404);
   }
 });
 
