@@ -1,0 +1,500 @@
+
+<p>
+
+<a href="http://addons.heroku.com/mongocrypt">
+MongoCrypt
+</a>
+ is an 
+<a href="http://addons.heroku.com">
+add-on
+</a>
+ for providing functionality X.
+</p>
+
+<p>
+Adding functionality X to an application provides benefits X, Y and Z. [[Sell the benefits here! Don't skimp - developers have many options these days.]]
+</p>
+
+<p>
+MongoCrypt is accessible via an API and has supported client libraries for [[Java|Ruby|Python|Grails|Scala|Play!|Node.js|Clojure]]*.
+</p>
+
+<h2>
+Installing the add-on
+</h2>
+
+<p>
+MongoCrypt can be installed to a Heroku application via the  CLI:
+</p>
+
+<div class="callout" markdown="1">
+
+A list of all plans available can be found [here](
+<a href='http://addons.heroku.com/mongocrypt'>
+http://addons.heroku.com/mongocrypt
+</a>
+).
+
+</div>
+
+<pre>
+
+<code>
+:::term
+$ heroku addons:add mongocrypt
+-----&gt; Adding mongocrypt to sharp-mountain-4005... done, v18 (free)
+
+</code>
+
+</pre>
+
+<p>
+Once MongoCrypt has been added a 
+<code>
+MONGOCRYPT_URL
+</code>
+ setting will be available in the app configuration and will contain the [[variable purpose, i.e. "canonical URL used to access the newly provisioned MongoCrypt service instance."]]. This can be confirmed using the 
+<code>
+heroku config
+</code>
+ command.
+</p>
+
+<pre>
+
+<code>
+:::termMONGOCRYPT_URL
+$ heroku config | grep MONGOCRYPT_URL
+MONGOCRYPT_URL    =&gt; 
+<a href='http://user:
+<a href='mailto:pass@instance.ip'>
+pass@instance.ip
+</a>
+/resourceid'>
+http://user:
+<a href='mailto:pass@instance.ip'>
+pass@instance.ip
+</a>
+/resourceid
+</a>
+
+</code>
+
+</pre>
+
+<p>
+After installing MongoCrypt the application should be configured to fully integrate with the add-on.
+</p>
+
+<h3>
+Local workstation setup
+</h3>
+
+<p>
+[[If there is a local executable required (like for the memcache add-on) then include installation instructions. If not, omit entire section]]
+</p>
+
+<p>
+MongoCrypt can be installed for use in a local development  environment.  Typically this entails [[installing the software | creating another version of the service]] and pointing the MONGOCRYPT_URL to this [[local | remote]] service.
+</p>
+
+<table>
+
+  
+<tr>
+
+    
+<th>
+If you have...
+</th>
+
+    
+<th>
+Install with...
+</th>
+
+  
+</tr>
+
+  
+<tr>
+
+    
+<td>
+Mac OS X
+</td>
+
+    
+<td style="text-align: left">
+
+<code>
+brew install X
+</code>
+
+</td>
+
+  
+</tr>
+
+  
+<tr>
+
+    
+<td>
+Windows
+</td>
+
+    
+<td style="text-align: left">
+Link to some installer
+</td>
+
+  
+</tr>
+
+  
+<tr>
+
+    
+<td>
+Ubuntu Linux
+</td>
+
+    
+<td style="text-align: left">
+
+<code>
+apt-get install X
+</code>
+
+</td>
+
+  
+</tr>
+
+  
+<tr>
+
+    
+<td>
+Other
+</td>
+
+    
+<td style="text-align: left">
+Link to some raw package
+</td>
+
+  
+</tr>
+
+</table>
+
+<h2>
+Using with Rails 3.x
+</h2>
+
+<p>
+[[Repeat this ##Rails 3.x sections for all other supported languages/frameworks including Java, Node.js, Python, Scala, Play!, Grails, Clojure. Heroku is a polyglot platform - don't box yourself into supporting a single language]]
+</p>
+
+<p>
+Ruby on Rails applications will need to add the following entry into their 
+<code>
+Gemfile
+</code>
+ specifying the MongoCrypt client library.
+</p>
+
+<pre>
+
+<code>
+:::ruby
+gem 'mongocrypt'
+
+</code>
+
+</pre>
+
+<p>
+Update application dependencies with bundler.
+</p>
+
+<pre>
+
+<code>
+:::term
+$ bundle install
+sample output
+
+</code>
+
+</pre>
+
+<h3>
+Development environment
+</h3>
+
+<p>
+When developing locally it is best to turn off the integration with MongoCrypt to minimize dependencies on remote services. [[Describe how to stub/disable add-on integration - or specific steps required for local dev - for your service here.]].
+</p>
+
+<h3>
+Deploy changes
+</h3>
+
+<p>
+Deploy the MongoCrypt configuration to Heroku:
+</p>
+
+<pre>
+
+<code>
+:::term
+$ git add config/mongocrypt.rb
+$ git commit -a -m "Adding mongocrypt config"
+$ git push heroku master
+…
+-----&gt; Heroku receiving push
+-----&gt; Launching... done, v3
+       
+<a href='http://warm-frost-1289.herokuapp.com'>
+http://warm-frost-1289.herokuapp.com
+</a>
+ deployed to Heroku
+
+To 
+<a href='mailto:git@heroku.com'>
+git@heroku.com
+</a>
+:warm-frost-1289.git
+ * [new branch]      master -&gt; master
+
+</code>
+
+</pre>
+
+<p>
+Configuration of the add-on can be confirmed by running:
+</p>
+
+<pre>
+
+<code>
+:::term
+$ heroku run confirmation command
+
+</code>
+
+</pre>
+
+<p>
+[[On Heroku, configuration is managed via configuration variables. Please update client libraries to follow this pattern. No configuration files with sensitive information should ever be required within the application source and required config values should be read in from the ENV by supported libraries.]]
+</p>
+
+<h3>
+Feature 1
+</h3>
+
+<p>
+[[Describe how to use/integrate feature 1 from Ruby on Rails]]
+</p>
+
+<h3>
+Feature 2
+</h3>
+
+<p>
+[[Describe how to use/integrate feature 2 from Ruby on Rails]]
+</p>
+
+<h2>
+Monitoring &amp; Logging
+</h2>
+
+<p>
+Stats and the current state of MongoCrypt can be displayed via the CLI.
+</p>
+
+<pre>
+
+<code>
+:::term
+$ heroku mongocrypt:command
+example output
+
+</code>
+
+</pre>
+
+<p>
+MongoCrypt activity can be observed within the Heroku log-stream by [[describe add-on logging recognition, if any]].
+</p>
+
+<pre>
+
+<code>
+:::term
+$ heroku logs -t | grep 'mongocrypt pattern'
+
+</code>
+
+</pre>
+
+<h2>
+Dashboard
+</h2>
+
+<div class="callout" markdown="1">
+
+For more information on the features available within the MongoCrypt dashboard please see the docs at [mysite.com/docs](mysite.com/docs).
+
+</div>
+
+<p>
+The MongoCrypt dashboard allows you to [[describe dashboard features]].
+</p>
+
+<p>
+
+<img src="http://i.imgur.com/FkuUw.png" alt="MongoCrypt Dashboard" title="MongoCrypt Dashboard" />
+
+</p>
+
+<p>
+The dashboard can be accessed via the CLI:
+</p>
+
+<pre>
+
+<code>
+:::term
+$ heroku addons:open mongocrypt
+Opening mongocrypt for sharp-mountain-4005…
+
+</code>
+
+</pre>
+
+<p>
+or by visiting the 
+<a href="http://heroku.com/myapps">
+Heroku apps web interface
+</a>
+ and selecting the application in question. Select MongoCrypt from the Add-ons menu.
+</p>
+
+<p>
+
+<img src="http://f.cl.ly/items/1B090n1P0d3W0I0R172r/addons.png" alt="MongoCrypt Add-ons Dropdown" title="MongoCrypt Add-ons Dropdown" />
+
+</p>
+
+<h2>
+Troubleshooting
+</h2>
+
+<p>
+If [[feature X]] does not seem to be [[common issue Y]] then 
+<br />
+[[add specific commands to look for symptoms of common issue Y]].
+</p>
+
+<h2>
+Migrating between plans
+</h2>
+
+<div class="note" markdown="1">
+Application owners should carefully manage the migration timing to ensure proper application function during the migration process.
+</div>
+
+<p>
+[[Specific migration process or any migration tips 'n tricks]]
+</p>
+
+<p>
+Use the 
+<code>
+heroku addons:upgrade
+</code>
+ command to migrate to a new plan.
+</p>
+
+<pre>
+
+<code>
+:::term
+$ heroku addons:upgrade mongocrypt:newplan
+-----&gt; Upgrading mongocrypt:newplan to sharp-mountain-4005... done, v18 ($49/mo)
+       Your plan has been updated to: mongocrypt:newplan
+
+</code>
+
+</pre>
+
+<h2>
+Removing the add-on
+</h2>
+
+<p>
+MongoCrypt can be removed via the  CLI.
+</p>
+
+<div class="warning" markdown="1">
+This will destroy all associated data and cannot be undone!
+</div>
+
+<pre>
+
+<code>
+:::term
+$ heroku addons:remove mongocrypt
+-----&gt; Removing mongocrypt from sharp-mountain-4005... done, v20 (free)
+
+</code>
+
+</pre>
+
+<p>
+Before removing MongoCrypt a data export can be performed by [[describe steps if export is available]].
+</p>
+
+<h2>
+Support
+</h2>
+
+<p>
+All MongoCrypt support and runtime issues should be logged with Heroku Support at 
+<a href='https://support.heroku.com'>
+https://support.heroku.com
+</a>
+. Any non-support related issues or product feedback is welcome at [[your channels]].
+</p>
+
+<h2>
+Additional resources
+</h2>
+
+<p>
+Additional resources are available at:
+</p>
+
+<ul>
+
+<li>
+
+<a href="http://mysite.com">
+Site docs
+</a>
+
+</li>
+
+<li>
+
+<a href="http://someguysblog.com">
+Some screencast
+</a>
+
+</li>
+
+</ul>

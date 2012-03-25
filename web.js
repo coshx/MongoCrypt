@@ -105,6 +105,10 @@ function sso_auth (req, res, next) {
 app.get('/landing', function(request, response) {
   	response.render('landing.jade', {  title: 'MongoCrypt' })
 });
+//README
+app.get('/help', function(request, response) {
+  	response.render('help.jade', {  title: 'MongoCrypt' })
+});
 
 //SSO LANDING PAGE
 app.get('/', function(request, response) {
