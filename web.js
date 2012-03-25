@@ -124,7 +124,9 @@ app.get('/', function(request, response) {
       resource: request.session.resource, email: request.session.email })
   }else{
 	console.log("---Error loading sso landing page---")
+	console.log("session info:")
 	console.log(request.session)
+	console.log("session resource:")
 	console.log(request.session.resource)
 	response.redirect("/landing")
     //response.send("Not found", 404);
