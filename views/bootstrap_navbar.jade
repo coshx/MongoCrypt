@@ -1,7 +1,12 @@
-img(alt='Mongo Database Security through encryption', src='/img/mongocrypt.png')
+if(session_source == "HEROKU")
+  include heroku_navbar
+else
+  img(alt='Mongo Database Security through encryption', src='/img/mongocrypt.png')
+  br
+  br
 .container
     ul.nav.nav-pills
-        li.active
+          li.active
             a(href='/home') Home
           li
             a(href='/landing') Manage

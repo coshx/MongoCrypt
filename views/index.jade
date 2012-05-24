@@ -1,9 +1,12 @@
-p
+//.navbar.navbar-fixed-top
+  include bootstrap_navbar
+
+  p
     | hello, resource:
     = resource.id
     br
     | You are on plan:
-    = resource.plan %>
+    = resource.plan
     br
-    | You logged in as: 
-    = email 
+    | You logged in as:
+    = email

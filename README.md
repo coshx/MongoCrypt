@@ -1,31 +1,28 @@
-## `kensa create my_addon --template node`
+========
+Setup
+========
+install Heroku toolbelt: https://toolbelt.herokuapp.com/
 
-this repository is a node.js/express template application for use with the 
-Heroku <a href="http://github.com/heroku/kensa">kensa</a> gem
+http://nodejs.org/#download
 
-dependencies:
+install Node:
 
-    > gem install kensa
-    > gem install foreman
+rvm use 1.9.3
 
-clone it via:
+rvm gemset create kwyjibo
 
-    > kensa create my_addon --template node
-    > cd my_addon
-    > npm install
-    > foreman start
+gem install foreman
 
-In a new window: 
+npm install
 
-    > cd my_addon
-    > kensa test provision
-    > kensa sso 1
+-------
+Run with
+-------
 
-And you should be in a Heroku Single Sign On sesion for your brand new addon! 
+SSO_SALT=e6t6vHOweLqDvvuM HEROKU_USERNAME=mongocrypt HEROKU_PASSWORD=xrTpvtHD0fbdfHsb foreman start
 
-## Current status: 
-- deprovision - working
-- provision   - working
-- planchange  - working
-- GET SSO     - working
-- POST SSO    - working
+provision test resource with: kensa test provision
+
+simulate admin panel login from heroku: kensa sso 1  (1 is the id of the resource)
+
+simulate customer remoting with: ruby consumer_app.rb  (must install mongo)
