@@ -4,5 +4,5 @@ node_modules
 Icon?
 *.sw?
 *.box
-iso/
-.vagrant/
+iso
+.vagrant
