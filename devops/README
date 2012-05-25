@@ -1,0 +1,46 @@
+This directory is where the files for veewee and vagrant are installed. This is
+in place to provide for deployment testing and development of Chef recipes.
+
+## Step by step, should work(tm) instructions:
+ 1. Install any required gems (e.g. vagrant)
+    gem install vagrant veewee
+ 2. Create ISO directory (I have mine in ~/ISO), and link
+    mkdir ~/ISO
+    ln -s ~/ISO 
+ 3. Populate ISO directory with Ubuntu ISO from [1] (or a mirror close to you)
+    cd ~/ISO && wget http://bit.ly/Li7mIu 
+ 4. Review the process of generating a 'basebox' at [2]; then, do it
+    vagrant basebox define mongodb-node 'ubuntu-11.10-server-amd64'
+ 5. Modify definitions/mongodb-node/postinstall.sh to ensure that the URLs are
+    correct for Ruby and VBoxGuestAdditions
+ 7. Build the mongodb-node VM: 
+    vagrant basebox build mongodb-node
+    (this takes 35 minutes on my MBP/4G; have a snack or review [3])
+ 8. Use BDD to test the VM: 
+    vagrant basebox validate mongodb-node
+ 9. Export the VM to vagrant "box" format
+    vagrant basebox export mongodb-node
+10. Add the "box" file to your vagrant library
+    vagrant box add 'mongodb-node' 'mongodb-node.box'
+11. Start mongodb-node VM
+    vagrant up
+12. You can ssh in and look around: 
+    vagrant ssh
+    (user: vagrant; pass: vagrant)
+
+## Workflow - ymmv:
+1. Take a snapshot
+   vagrant snap take -n pre-feature -d 'before starting my feature'
+2. Make some changes
+3. Rollback to test from a good known state (when necessary)
+   vagrant snap back
+4. Test provisioning
+   vagrant provision
+
+## Tips
+ * Write Vagrant output to a log file
+    VAGRANT_LOG=provision.log vagrant provision
+
+[1]: http://bit.ly/Li7mIu 
+[2]: https://github.com/jedi4ever/veewee
+[3]: http://vagrantup.com/

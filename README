@@ -5,5 +5,6 @@ install Node:
 rvm use 1.9.3
 rvm gemset create kwyjibo
 gem install foreman
+gem install vagrant veewee
 npm install
 run with: SSO_SALT=e6t6vHOweLqDvvuM HEROKU_USERNAME=mongocrypt HEROKU_PASSWORD=xrTpvtHD0fbdfHsb foreman start
