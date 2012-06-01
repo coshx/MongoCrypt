@@ -140,8 +140,10 @@ app.get('/', function(request, response) {
   }
 });
 
+
 app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request, response) {
   // TODO actually spin up db node
+
   console.log(request.body)
   var resource =  {id : resources.length + 1, plan : request.body.plan }
   resources.push(resource)
