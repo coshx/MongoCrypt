@@ -1,7 +1,7 @@
+
 /**
  * Module dependencies.
  */
-
 var express = require('express')
   //, routes = require('./routes');
 var crypto  = require('crypto');
@@ -95,6 +95,7 @@ function sso_auth (req, res, next) {
     return;
   }
   res.cookie('heroku-nav-data', req.param('nav-data'))
+  req.session.source = "HEROKU"
   req.session.resource = get_resource(id)
   req.session.email = req.param('email')
   next();
@@ -105,27 +106,25 @@ function sso_auth (req, res, next) {
 //app.get('/', routes.index);
 //HOME PAGE
 app.get('/home', function(request, response) {
-  	response.render('home.jade', {  title: 'MongoCrypt' })
+  	response.render('home.jade', {  title: 'MongoCrypt', session_source: request.session.source, headerActives: 'home' })
 });
 //PRICING
 app.get('/pricing', function(request, response){
-	response.render('pricing.jade', { title: 'MongoCrypt'})
+	response.render('pricing.jade', { title: 'MongoCrypt', session_source: request.session.source, headerActives: 'pricing'})
 });
 
 //DEMO LANDING PAGE
 app.get('/landing', function(request, response) {
-  	response.render('landing.jade', {  title: 'MongoCrypt' })
+  	response.render('landing.jade', {  title: 'MongoCrypt',session_source: request.session.source, headerActives: 'landing'})
 });
 //README
 app.get('/help', function(request, response) {
-  	response.render('help.jade', {  title: 'MongoCrypt' })
+  	response.render('help.jade', {  title: 'MongoCrypt',session_source: request.session.source, headerActives: 'help'})
 });
-
 //SSO LANDING PAGE
 app.get('/', function(request, response) {
   if(request.session.resource){
-    response.render('index.jade', {layout: false, 
-      resource: request.session.resource, email: request.session.email })
+    response.render('index.jade', {layout: 'layout.jade', title: 'MongoCrypt', session_source: request.session.source, resource: request.session.resource, email: request.session.email })
   }
   else if(request.session.email){
     console.log("---Error loading sso landing page---")
@@ -141,8 +140,10 @@ app.get('/', function(request, response) {
   }
 });
 
+
 app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request, response) {
   // TODO actually spin up db node
+
   console.log(request.body)
   var resource =  {id : resources.length + 1, plan : request.body.plan }
   resources.push(resource)
@@ -186,4 +187,10 @@ app.put('/heroku/resources/:id', express.bodyParser(), basic_auth, function(requ
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
+});
+
+app.dynamicHelpers({
+  session: function(req, res){
+    return req.session;
+  }
 });
