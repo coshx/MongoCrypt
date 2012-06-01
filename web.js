@@ -1,8 +1,7 @@
+
 /**
  * Module dependencies.
  */
-
-
 var express = require('express')
   //, routes = require('./routes');
 var crypto  = require('crypto');
@@ -107,22 +106,21 @@ function sso_auth (req, res, next) {
 //app.get('/', routes.index);
 //HOME PAGE
 app.get('/home', function(request, response) {
-  	response.render('home.jade', {  title: 'MongoCrypt', session_source: request.session.source })
+  	response.render('home.jade', {  title: 'MongoCrypt', session_source: request.session.source, headerActives: 'home' })
 });
 //PRICING
 app.get('/pricing', function(request, response){
-	response.render('pricing.jade', { title: 'MongoCrypt', session_source: request.session.source})
+	response.render('pricing.jade', { title: 'MongoCrypt', session_source: request.session.source, headerActives: 'pricing'})
 });
 
 //DEMO LANDING PAGE
 app.get('/landing', function(request, response) {
-  	response.render('landing.jade', {  title: 'MongoCrypt',session_source: request.session.source})
+  	response.render('landing.jade', {  title: 'MongoCrypt',session_source: request.session.source, headerActives: 'landing'})
 });
 //README
 app.get('/help', function(request, response) {
-  	response.render('help.jade', {  title: 'MongoCrypt',session_source: request.session.source})
+  	response.render('help.jade', {  title: 'MongoCrypt',session_source: request.session.source, headerActives: 'help'})
 });
-
 //SSO LANDING PAGE
 app.get('/', function(request, response) {
   if(request.session.resource){
@@ -187,4 +185,10 @@ app.put('/heroku/resources/:id', express.bodyParser(), basic_auth, function(requ
 var port = process.env.PORT || 3000;
 app.listen(port, function() {
   console.log("Listening on " + port);
+});
+
+app.dynamicHelpers({
+  session: function(req, res){
+    return req.session;
+  }
 });

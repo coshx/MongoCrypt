@@ -1,16 +1,16 @@
 if(session_source == "HEROKU")
   include heroku_navbar
 else
-  img(alt='Mongo Database Security through encryption', src='/img/mongocrypt.png')
+  img(alt='Mongo Database Security through encryption', src='/img/mongocrypt3.jpg')
   br
   br
-.container
+  -var items = [{value:'Home',path:'home'},{value:'Manage',path:'landing'},{value:'Help',path:'help'},{value:'Pricing',path:'pricing'}];
+  .container
     ul.nav.nav-pills
+      for item in items
+        if item.path == $headerActive
           li.active
-            a(href='/home') Home
+            a(href='/'+$headerActive) #{item.value}
+        else
           li
-            a(href='/landing') Manage
-          li
-            a(href='/help') Help
-          li
-            a(href='/pricing') Pricing
+            a(href='/'+item.path) #{item.value}
