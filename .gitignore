@@ -3,9 +3,5 @@ node_modules
 .npmignore
 Icon?
 *.sw?
-
 .gitignore
-.idea/*
-./idea/*
-/.idea/*
-/.idea/
+.idea/
