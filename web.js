@@ -7,7 +7,7 @@ var express = require('express')
 var crypto  = require('crypto');
 var http    = require('http');
 var fs      = require('fs');
-var resources = [];
+var db      = require('./public/javascripts/db_interface')
 
 
 var app = module.exports = express.createServer();
@@ -32,24 +32,6 @@ app.configure('development', function(){
 app.configure('production', function(){
   app.use(express.errorHandler());
 });
-
-function get_resource(id) {
- id = parseInt(id)
- for (i in resources) {
-   if(resources[i].id == id){
-     return resources[i] 
-   }
- }
-}
-
-function destroy_resource(id) {
- id = parseInt(id)
- for (i in resources) {
-   if(resources[i].id == id){
-     delete resources[i] 
-   }
- }
-}
 
 function basic_auth (req, res, next) {
   console.log("---Basic auth---")
@@ -96,7 +78,7 @@ function sso_auth (req, res, next) {
   }
   res.cookie('heroku-nav-data', req.param('nav-data'))
   req.session.source = "HEROKU"
-  req.session.resource = get_resource(id)
+  req.session.resource = db.getResource(id)
   req.session.email = req.param('email')
   next();
 }
@@ -140,24 +122,21 @@ app.get('/', function(request, response) {
   }
 });
 
-
+//provision
 app.post('/heroku/resources', express.bodyParser(), basic_auth, function(request, response) {
-  // TODO actually spin up db node
-
   console.log(request.body)
-  var resource =  {id : resources.length + 1, plan : request.body.plan }
-  resources.push(resource)
+  var resource = db.getNewResource("test") ;
   response.send(resource)
 });
 
 //Deprovision
 app.delete('/heroku/resources/:id', basic_auth, function(request, response) {
   console.log(request.params)
-  if(!get_resource(request.params.id)){
+  if(!db.getResource(request.params.id)){
     response.send("Not found", 404);
     return;
   }
-  destroy_resource(request.params.id)
+  db.destroyResource(request.params.id)
   response.send("ok")
 })
 
@@ -175,7 +154,7 @@ app.post('/sso/login', express.bodyParser(), sso_auth, function(request, respons
 app.put('/heroku/resources/:id', express.bodyParser(), basic_auth, function(request, response) {
   console.log(request.body)
   console.log(request.params) 
-  var resource =  get_resource(request.params.id)
+  var resource =  db.getResource(request.params.id)
   if(!resource){
     response.send("Not found", 404);
     return;
