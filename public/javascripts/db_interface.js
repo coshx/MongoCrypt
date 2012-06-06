@@ -16,7 +16,7 @@ exports.getNewResource = function(plan_name){
   return resource ;
 }
 
-getResource = function(id){
+exports.getResource = function(id){
  id = parseInt(id)
  for (i in resources) {
    if(resources[i].id == id){
@@ -25,7 +25,7 @@ getResource = function(id){
  }
 }
 
-destroyResource = function(id){
+exports.destroyResource = function(id){
  id = parseInt(id)
  for (i in resources) {
    if(resources[i].id == id){

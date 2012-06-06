@@ -3,5 +3,5 @@ node_modules
 .npmignore
 Icon?
 *.sw?
-.gitignore
 .idea/
+.DS_Store

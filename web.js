@@ -7,7 +7,7 @@ var express = require('express')
 var crypto  = require('crypto');
 var http    = require('http');
 var fs      = require('fs');
-var db      = require('./public/javascripts/db_interface')
+var db      = require('./public/javascripts/db_interface')   ;
 
 
 var app = module.exports = express.createServer();
@@ -77,9 +77,10 @@ function sso_auth (req, res, next) {
     return;
   }
   res.cookie('heroku-nav-data', req.param('nav-data'))
-  req.session.source = "HEROKU"
-  req.session.resource = db.getResource(id)
-  req.session.email = req.param('email')
+  req.session.source = "HEROKU"       ;
+
+  req.session.resource = db.getResource(id) ;
+  req.session.email = req.param('email')    ;
   next();
 }
 
