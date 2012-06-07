@@ -1,9 +1,9 @@
 {
-  "id": "mongocrypt",
+  "id": "MongoCrypt",
   "api": {
     "config_vars": [ "MONGOCRYPT_URL" ],
-    "password": "xrTpvtHD0fbdfHsb",
-    "sso_salt": "e6t6vHOweLqDvvuM",
+    "password": "rTpvtHD0fbdfHsb",
+    "sso_salt": "6t6vHOweLqDvvuM",
     "production": {
       "base_url": "https://mongocrypt.herokuapp.com/heroku/resources",
       "sso_url": "https://mongocrypt.herokuapp.com/sso/login"
