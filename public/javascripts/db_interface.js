@@ -10,7 +10,7 @@ exports.getNewResource = function(plan_name){
 
   var url = "mongodb://heroku:1dsJh76GFBaSSn88@23.21.192.227:27017/db1"
 
-  var resource =  {id : resources.length + 1, config : { "MONGOCRYPT_URL" : url } }
+  var resource =  {id : resources.length + 1, config : { "MONGOCRYPT2_URL" : url } }
 
   resources.push(resource) ;
   return resource ;
