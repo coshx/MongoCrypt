@@ -1,7 +1,7 @@
 {
   "id": "MongoCrypt2",
   "api": {
-    "config_vars": [ "MONGOCRYPT_URL" ],
+    "config_vars": [ "MONGOCRYPT2_URL" ],
     "password": "rTpvtHD0fbdfHsb",
     "sso_salt": "6t6vHOweLqDvvuM",
     "production": {
