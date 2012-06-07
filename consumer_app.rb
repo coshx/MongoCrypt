@@ -5,7 +5,7 @@ require 'uri'
 #port = ENV['MONGO_PORT'] || 27017
 #name = ENV['DB_NAME'] || "local"
 
-uri = URI.parse(ENV['MONGOCRYPT_URL'])
+uri = URI.parse(ENV['MONGOCRYPT2_URL'])
 
 puts "-MongoDb Info--"
 
