@@ -35,18 +35,22 @@ app.configure('production', function(){
 
 function basic_auth (req, res, next) {
   console.log("---Basic auth---")
-  console.log(req.headers.authorization)
-  console.log(req.headers.authorization.search('Basic '))
+  console.log("1 "+req.headers.authorization)
   if (req.headers.authorization && req.headers.authorization.search('Basic ') === 0) {
-    // fetch login and password
-    if (new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString() == 
+    //  fetch login and password
+    if (new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString() ==
         process.env.HEROKU_USERNAME + ':' + process.env.HEROKU_PASSWORD) {
+        console.log("2 "+new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString())  ;
+        console.log("3 "+process.env.HEROKU_USERNAME + ':' + process.env.HEROKU_PASSWORD)  ;
       next();
       return;
+    }else{
+       console.log("4 "+new Buffer(req.headers.authorization.split(' ')[1], 'base64').toString())  ;
+       console.log("5 "+process.env.HEROKU_USERNAME + ':' + process.env.HEROKU_PASSWORD)  ;
+
     }
   }
   console.log('Unable to authenticate user');
-  console.log(req.headers.authorization);
   res.header('WWW-Authenticate', 'Basic realm="Admin Area"');
   res.send('Authentication required', 401);
 }
