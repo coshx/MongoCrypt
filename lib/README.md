@@ -1,0 +1,5 @@
+CryptResource
+=============
+
+See setup.rb
+
