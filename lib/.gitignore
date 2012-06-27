@@ -1,8 +1,0 @@
-manifest/cache/
-manifest/logs/
-manifest/tmp/
-install-log.txt
-
-/.idea
-
-.DS_Store

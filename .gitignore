@@ -5,3 +5,4 @@ Icon?
 *.sw?
 .idea/
 .DS_Store
+mongocrypt_dev_notes/
