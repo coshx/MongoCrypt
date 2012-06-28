@@ -6,7 +6,7 @@ module LocalDatabase
 
     def create( options = {})
       collection = db["Resources"]
-      return collection.insert(options[:server])
+      return collection.insert(options[:create_server_response])
     end
 
     def find_by_id(options ={})

@@ -8,8 +8,8 @@ key = { :aws_secret_access_key => credentials['aws_secret_access_key'], :aws_acc
 Server = AWS::Server.new(key)
 Resource = LocalDatabase::Resource.new
 
-@server = Server.create(:ami => 'ami-e565ba8c', :InstanceType => 'm1.large', :SecurityGroup => 'database', :KeyName => 'sandbox-keypair', :zone => 'us-east-1a')
-@resource_id = Resource.create(:server => @server.body)
+@create_server_response = Server.create(:ami => 'ami-e565ba8c', :InstanceType => 'm1.large', :SecurityGroup => 'database', :KeyName => 'sandbox-keypair', :region => 'us-east-1a')
+@resource_id = Resource.create(:create_server_response => @create_server_response.body)
 @instance_id = Resource.find_by_id(:id => @resource_id).first['reservationSet'].last['instancesSet'].last['instanceId']
 @volume_one = Server.createVolume(:region => 'us-east-1a', :size => '1')
 @volume_two = Server.createVolume(:region => 'us-east-1a', :size => '1')

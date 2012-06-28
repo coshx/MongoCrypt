@@ -12,11 +12,15 @@ module AWS
       return @compute.describe_instances( 'instance-id' => instance_id)
     end
 
+    def find_by_volume_id(volume_id)
+      return @compute.describe_volumes('volume-id' => volume_id)
+    end
+
     def find(options={})
       return @compute.describe_instances(options)
     end
 
-    def label(instance, tags)
+    def create_tags(instance, tags)
        return @compute.create_tags(instance, tags)
     end
 
@@ -26,7 +30,7 @@ module AWS
             'InstanceType' => options[:InstanceType],
             'SecurityGroup' => options[:SecurityGroup],
             'KeyName' => options[:KeyName] ,
-            'Placement.AvailabilityZone' => options[:zone]
+            'Placement.AvailabilityZone' => options[:region]
         ).body['instancesSet'].first
       sleep 3
        until @compute.describe_instances(
@@ -42,50 +46,53 @@ module AWS
       return server
     end
 
-    def delete(options={})
-      puts '..terminating '+options[:instance_id]
-      server_data = @compute.terminate_instances(
-          options[:instance_id]
-      ).body['instancesSet'].first
-      until @compute.describe_instances(
-         'instance-id' => server_data['instanceId']
-          ).body['reservationSet'].first['instancesSet'].first['instanceState']['name'] == 'terminated'
-      end
-      puts 'Server terminated: '+server_data['instanceId'].to_s
+    def delete(instance_id)
+      server_data = @compute.terminate_instances(instance_id).body['instancesSet'].first
+      begin
+        until result = @compute.describe_instances(
+           'instance-id' => server_data['instanceId']
+            ).body['reservationSet'].first['instancesSet'].first['instanceState']['name'] == 'terminated'
+        end
+      rescue ; puts "\nServer terminated: "+server_data['instanceId'].to_s ; return true ; end #only happens when mocked
+      puts "\nServer terminated: "+server_data['instanceId'].to_s
+      return result
+    end
 
-      return @compute.describe_instances('instance-id' => server_data['instanceId'])
-   end
-
-    def createVolume(options={})
-      region = options[:region]
-      size = options[:size]
+    def create_volume(region, size)
       volume_data = @compute.create_volume(region,size)
+      sleep 3
       until @compute.describe_volumes('volume-id' => volume_data.body['volumeId']).body['volumeSet'].first['status'] == 'available'
       end
-      puts 'Volume created: '+volume_data.body['volumeId'].to_s
+      puts "\nVolume created: "+volume_data.body['volumeId'].to_s
       return volume_data
     end
 
-    def deleteVolume(options={})
-        puts "...deleting "+options[:volume_id]
-        @compute.delete_volume(options[:volume_id])
-    end
-    def findVolume(options={})
-        return @compute.describe_volumes(options)
+    def detach_volume(volume_id)
+      @compute.detach_volume(volume_id)
+      until result = @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['status'] == 'available' ; end
+      puts "\nDetached "+volume_id
+      return result
     end
 
-    def attachVolume(options={})
-        instance_id = options[:instance_id]
-        volume_id = options[:volume_id]
-        device_name = options[:device_name]
-        @compute.attach_volume(instance_id, volume_id, device_name)
-        until @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['status'] == 'in-use'
-        end
-        if instance_id == @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['attachmentSet'].first['instanceId']
-          puts volume_id.to_s+' attached to '+instance_id.to_s
-        else 'Volume attachment error: '+volume_id.to_s+' did not attach to '+instance_id.to_s
-        return instance_id == @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['attachmentSet'].first['instanceId']
-        end
+    def delete_volume(volume_id)
+      @compute.delete_volume(volume_id)
+      begin
+        until result = @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['status'] != 'deleting';end
+      rescue ; puts "\nVolume deleted: "+volume_id ; return true ; end #only happens when mocked
+      puts "\nServer terminated: "+server_data['instanceId'].to_s
+      return result
+    end
+
+    def attach_volume(instance_id, volume_id, device_name)
+      @compute.attach_volume(instance_id, volume_id, device_name)
+      until result = @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['status'] == 'in-use' ; end
+      if instance_id == @compute.describe_volumes('volume-id' => volume_id).body['volumeSet'].first['attachmentSet'].first['instanceId']
+        puts "\n"+volume_id.to_s+' attached to '+instance_id.to_s
+      else
+        puts "\nVolume attachment error: "+volume_id.to_s+' did not attach to '+instance_id.to_s ;
+      end
+
+      return result
     end
 
   end
