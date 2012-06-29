@@ -1,22 +1,21 @@
-
-module AWS
+module MongoCrypt
   require 'fog'
 
-  class Server
+  class AWSConnect
 
     def initialize(key)
-       @compute = Fog::Compute.new(key)
+        @compute = Fog::Compute.new(key)
     end
 
-    def find_by_instance_id(instance_id)
+    def find_instance_by_id(instance_id)
       return @compute.describe_instances( 'instance-id' => instance_id)
     end
 
-    def find_by_volume_id(volume_id)
+    def find_volume_by_id(volume_id)
       return @compute.describe_volumes('volume-id' => volume_id)
     end
 
-    def find(options={})
+    def find_instance(options={})
       return @compute.describe_instances(options)
     end
 
@@ -24,7 +23,7 @@ module AWS
        return @compute.create_tags(instance, tags)
     end
 
-    def create(options={})
+    def create_instance(options={})
       server_data = @compute.run_instances(
             options[:ami], 1, 1,
             'InstanceType' => options[:InstanceType],
@@ -46,7 +45,7 @@ module AWS
       return server
     end
 
-    def delete(instance_id)
+    def terminate_instance(instance_id)
       server_data = @compute.terminate_instances(instance_id).body['instancesSet'].first
       begin
         until result = @compute.describe_instances(
@@ -95,6 +94,42 @@ module AWS
       return result
     end
 
-  end
+    def luksFormat(ip,md_device_number)
 
+      Net::SSH.start(ip, 'ec2-user') do|session|
+        session.open_channel do |channel|
+        channel.request_pty do |c, success|
+          if success
+            puts 'request_pty successful'
+          end
+        end
+        channel.exec("sudo cryptsetup -y luksFormat /dev/md#{md_device_number}") do |ch, success|
+         abort "could not execute 'cryptsetup -y luksFormat' command" unless success
+
+         channel.on_data do |data|
+            if data.include? "Are you sure?"
+              channel.send_data("YES\n");
+            end
+            if data.include? "Enter LUKS passphrase:"
+              channel.send_data("passphrase\n");
+            end
+            if data.include? "Verify passphrase:"
+              channel.send_data("passphrase\n");
+            end
+          end
+          channel.on_close do |ch|
+            puts "channel is closing!"
+          end
+        end
+
+        end
+      end
+    end
+
+
+
+
+
+
+  end
 end

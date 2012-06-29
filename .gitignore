@@ -7,3 +7,4 @@ Icon?
 .DS_Store
 mongocrypt_dev_notes/
 .bundle/
+credentials.yml
