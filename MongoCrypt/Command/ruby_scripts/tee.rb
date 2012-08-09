@@ -11,7 +11,7 @@ require 'net/ssh'
     end
     
     
-    channel.exec('sudo vgcreate vg11 /dev/md11') do |ch, success|
+    channel.exec("echo '/dev/vg7/datagt /datagt ext4 defaults,auto,noatime,noexec 0 0' | sudo tee -a /etc/fstab") do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "hiii"
