@@ -1,5 +1,6 @@
 module MongoCrypt
   require 'net/ssh'
+  require 'net/smtp'
 
   class AWSConnect2
   	def initialize()
@@ -320,8 +321,8 @@ module MongoCrypt
     		when 1
     			if data.strip.eql? "Complete!"
     				switch = switch + 1
-    			else if data.strip.eql? "Nothing to do"
-    				
+    			elsif data.strip.eql? "Nothing to do"
+    				switch = 1000
     			end
     		when 2
     			if data.include? "root@"
@@ -332,21 +333,26 @@ module MongoCrypt
     			if data.include? "Is this ok"
     				channel.send_data("y\n");
     				switch = switch +1
+    			elsif data.strip.eql? "Nothing to do"
+    				switch = 1000
     			end
     		when 4
     			if data.strip.eql? "Complete!"
     				switch = switch + 1
     			end
     		when 5
-    			puts "really!"
     			if data.include? "root@"
-    				puts "we are at 5"
     				channel.send_data("sudo wget -c 'http://downloads.sourceforge.net/project/scons/scons/1.3.0/scons-1.3.0-1.noarch.rpm?use_mirror=ignum'\n");
     				switch = switch + 1
     			end
     		when 6
     			if data.include? "saved"
     				switch = switch + 1
+    			elsif data.include? "(try: 5)" 
+    				/the number indicates the number of tries it went through/
+    				switch = 1000
+    			elsif data.strip.eql? "The file is already fully retrieved; nothing to do."
+    				switch = 1000
     			end
     		when 7
     			if data.include? "root@"
@@ -361,6 +367,8 @@ module MongoCrypt
     		when 9
     			if data.include? "Resolving deltas"
     				switch = switch + 1
+    			elsif data.strip.eql? "fatal: destination path 'mongo' already exists and is not an empty directory."
+    				switch = 1000
     			end
     		when 10
     			if data.include? "root@"
@@ -394,6 +402,8 @@ module MongoCrypt
     			if data.strip.eql? "Is this ok [y/N]:"
     				channel.send_data("y\n");
     				switch = switch + 1
+    			elsif data.strip.eql? "Nothing to do"
+    				switch = 1000
     			end
     		when 17
     			if data.strip.eql? "Complete!"
@@ -410,14 +420,26 @@ module MongoCrypt
     			end
     		when 20
     			if data.include? "root@"
-    				channel.send_data("sudo scons --prefix=/opt/mongo --ssl install");
+    				channel.send_data("sudo scons --prefix=/opt/mongo --ssl install\n");
     				switch = switch + 1
     			end
     		when 21
     			if data.strip.eql? "scons: done building targets."
     				switch = switch + 1
     			end
-    			
+    		
+    		when 1000
+    			/error call here/
+    			Net::SMTP.start('smtp.comcast.net', 25) do |smtp|
+
+   					smtp.open_message_stream('jinjimin@gmail.com', 'jinjimin@gmail.com') do |f|
+					f.puts 'From: jinjimin@gmail.com'
+					f.puts 'To: jinjimin@gmail.com'
+      				f.puts 'Subject: test message'
+					f.puts 'This is a test message.'
+
+    end
+	end
     		
     		end    
         end
@@ -432,164 +454,6 @@ module MongoCrypt
   end
   end
   end
-  	def wget()
-  		Net::SSH.start( 'ec2-174-129-23-236.compute-1.amazonaws.com', 'ec2-user',) do|session|
-
-	session.open_channel do |channel|
-
-    channel.request_pty do |c, success|
-      if success
-        puts 'request_pty successful'
-      end
-    end
-    
-    
-    channel.exec('sudo su') do |ch, success|
-     abort "error" unless success
-     channel.on_data do |ch, data|
-        puts "#{data}"
-        channel.exec("sudo wget -c 'http://downloads.sourceforge.net/project/scons/scons/1.3.0/scons-1.3.0-1.noarch.rpm?use_mirror=ignum'\n");
-        
-        end
-        
-        
-        end
-    
-    
-    
-    end
-    
-    end
-  	end
-  	def curl_dev() 
-  		def wget()
-  		Net::SSH.start( 'ec2-174-129-23-236.compute-1.amazonaws.com', 'ec2-user',) do|session|
-
-	session.open_channel do |channel|
-
-    channel.request_pty do |c, success|
-      if success
-        puts 'request_pty successful'
-      end
-    end
-    
-    
-    channel.exec('sudo su') do |ch, success|
-     abort "error" unless success
-     channel.on_data do |ch, data|
-        puts "#{data}"
-        channel.send_data("sudo yum install curl-devel\n");
-         if data.include? "Is this ok"
-          channel.send_data("y\n");
-        end
-        
-        end
-        
-        
-        end
-    
-    
-    
-    end
-    
-    end
-  	end
-  	end
-  	def scons()
-  		Net::SSH.start( 'ec2-174-129-23-236.compute-1.amazonaws.com', 'ec2-user',) do|session|
-
-	session.open_channel do |channel|
-
-    channel.request_pty do |c, success|
-      if success
-        puts 'request_pty successful'
-      end
-    end
-    
-    
-    channel.exec('sudo su') do |ch, success|
-     abort "error" unless success
-     channel.on_data do |ch, data|
-        puts "#{data}"
-        channel.send_data(" rpm -i scons-1.3.0-1.noarch.rpm\n");
-        
-        end
-        
-        
-        end
-    
-    
-    
-    end
-    
-    end
-  	end
-  	def git_clone()
-  	Net::SSH.start( 'ec2-174-129-23-236.compute-1.amazonaws.com', 'ec2-user',) do|session|
-
-	session.open_channel do |channel|
-
-    channel.request_pty do |c, success|
-      if success
-        puts 'request_pty successful'
-      end
-    end
-    
-    
-    channel.exec('sudo su') do |ch, success|
-     abort "error" unless success
-     channel.on_data do |ch, data|
-        puts "#{data}"
-        channel.send_data("git clone git://github.com/mongodb/mongo.git\n");
-        
-        end
-        
-        
-        end
-    
-    
-    
-    end
-    
-    end
-  	end
-  	def cd_mongo()
-  		Net::SSH.start( 'ec2-174-129-23-236.compute-1.amazonaws.com', 'ec2-user',) do|session|
-
-	session.open_channel do |channel|
-
-    channel.request_pty do |c, success|
-      if success
-        puts 'request_pty successful'
-      end
-    end
-    
-    
-    channel.exec('sudo su') do |ch, success|
-     abort "error" unless success
-     channel.on_data do |ch, data|
-        puts "#{data}"
-        channel.send_data("cd mongo\n");
-        channel.send_data("git tag -l\n");
-        channel.send_data("git checkout r2.1.1\n");
-        channel.send_data("sudo yum install openssl-devel\n");
-        if data.include? "Is this ok"
-          channel.send_data("y\n");
-        end
-        channel.send_data("scons all --ssl\n");
-        channel.send_data("sudo scons --prefix=/opt/mongo --ssl install\n");
-        channel.send_data('export PATH="$PATH:/opt/mongo/bin/"\n');
-        end
-        
-        
-        end
-    
-    
-    
-    end
-    
-    end
-  	end
   		  
   
  
