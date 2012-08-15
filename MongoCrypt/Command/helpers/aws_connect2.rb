@@ -427,7 +427,34 @@ module MongoCrypt
     			if data.strip.eql? "scons: done building targets."
     				switch = switch + 1
     			end
-    		
+    		when 22
+    			if data.include? "root@"
+    				channel.send_data("sudo groupadd -r mongod \n");
+    				switch = switch + 1
+    			end 
+    		when 23
+    			if data.include? "root@"
+    				channel.send_data("sudo useradd -u mongod -g mongod \n");
+    				/this username will be different/
+    				switch = switch + 1
+    			end 
+    		when 24
+    			if data.include? "root@"
+    				channel.send_data("export PATH='$PATH:/opt/mongo/bin/' \n");
+    				switch = switch + 1
+    			end 
+    		when 25
+    			if data.include? "root@"
+    				channel.send_data("sudo chown mongod:mongod /data \n");
+    				switch = switch + 1
+    			end 
+    		when 26
+    			if data.include? "root@"
+    				channel.send_data("mkdir data/db \n");
+    				switch = switch + 1
+    			end
+    		when 27
+    			exit
     		when 1000
     			/error call here/
     			Net::SMTP.start('smtp.comcast.net', 25) do |smtp|
@@ -440,7 +467,7 @@ module MongoCrypt
 
     end
 	end
-    		
+    			exit
     		end    
         end
         
