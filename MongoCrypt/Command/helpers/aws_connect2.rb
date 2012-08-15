@@ -47,7 +47,7 @@ module MongoCrypt
     end
     
     
-    channel.exec('sudo lvcreate -l 100%vg -n datast vg10') do |ch, success|
+    channel.exec('sudo lvcreate -l 100%vg -n data vg10') do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "#{data}"
@@ -71,7 +71,7 @@ module MongoCrypt
     end
     
     
-    channel.exec('sudo mkdir /datast') do |ch, success|
+    channel.exec('sudo mkdir /data') do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "#{data}"
@@ -98,7 +98,7 @@ module MongoCrypt
     end
     
     
-    channel.exec('sudo mke2fs -t ext4 -F /dev/vg10/datast') do |ch, success|
+    channel.exec('sudo mke2fs -t ext4 -F /dev/vg10/data') do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "#{data}"
@@ -126,7 +126,7 @@ module MongoCrypt
     end
     
     
-    channel.exec("sudo mount /datast") do |ch, success|
+    channel.exec("sudo mount /data") do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "#{data}"
@@ -209,7 +209,7 @@ module MongoCrypt
     end
     
     
-    channel.exec("echo '/dev/vg10/datast /datast ext4 defaults,auto,noatime,noexec 0 0' | sudo tee -a /etc/fstab") do |ch, success|
+    channel.exec("echo '/dev/vg10/data /data ext4 defaults,auto,noatime,noexec 0 0' | sudo tee -a /etc/fstab") do |ch, success|
      abort "error" unless success
      channel.on_data do |ch, data|
         puts "#{data}"
